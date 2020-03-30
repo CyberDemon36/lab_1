@@ -70,32 +70,30 @@ for($i = 0; $i<count($arr); $i++){
        
     if($LOGIN == $arr[$i]["login"] and $PASSWORD == $arr[$i]["password"]){
 
-        if($LOGIN == $arr[$i]["login"] and $PASSWORD == $arr[$i]["password"] and $arr[$i]["role"] == "Admin"){
-                        
-                $admin = new admin($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
-                $admin->introduce();
-                $counter++;
-                                
-        }
-        else if($LOGIN == $arr[$i]["login"] and $PASSWORD == $arr[$i]["password"] and $arr[$i]["role"] == "Manager"){
-                $manager = new manager($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
-                $manager->introduce();
-                $counter++;
-                                
-        }
-        else if($LOGIN == $arr[$i]["login"] and $PASSWORD == $arr[$i]["password"] and $arr[$i]["role"] == "Client"){
+        if($LOGIN == $arr[$i]["login"] and $PASSWORD == $arr[$i]["password"] and $arr[$i]["role"] == "Admin" or $arr[$i]["role"] == "Manager" or $arr[$i]["role"] == "Client") {
 
-                $client = new client($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
-                $client->introduce();
-                $counter++;                
+            switch($arr[$i]["role"]) {
+
+                case "Admin":
+                    $admin = new admin($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
+                    $admin->introduce();
+                    $counter++;
+                break;
+
+                case "Manager":
+                    $manager = new manager($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
+                    $manager->introduce();
+                    $counter++;
+                break;
+
+                case "Client":
+                    $client = new client($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
+                    $client->introduce();
+                    $counter++;    
+                break;
+            }
         }
-        
     }
-    else if ($LOGIN == null and $PASSWORD == null){
-        echo "Привет! Добро пожаловать на сайт!";
-        break;
-    } 
-    
 }
 if($counter == 0){
    echo "Вы ввели неверные данные!";
