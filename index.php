@@ -9,6 +9,7 @@
 <?php
 $LOGIN = $_POST["login"];
 $PASSWORD = $_POST["password"];
+$SUBMIT = $_POST["submit"];
 
 class user {
     public $name;
@@ -63,31 +64,49 @@ $arr = [
 
 ];
 
-    if($LOGIN == $arr[0]["login"] and $PASSWORD == $arr[0]["password"]){
+$counter = 0;
+
+for($i = 0; $i<count($arr); $i++){
+       
+    if($LOGIN == $arr[$i]["login"] and $PASSWORD == $arr[$i]["password"]){
+
+        if($LOGIN == $arr[$i]["login"] and $PASSWORD == $arr[$i]["password"] and $arr[$i]["role"] == "Admin"){
+                        
+                $admin = new admin($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
+                $admin->introduce();
+                $counter++;
+                                
+        }
+        else if($LOGIN == $arr[$i]["login"] and $PASSWORD == $arr[$i]["password"] and $arr[$i]["role"] == "Manager"){
+                $manager = new manager($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
+                $manager->introduce();
+                $counter++;
+                                
+        }
+        else if($LOGIN == $arr[$i]["login"] and $PASSWORD == $arr[$i]["password"] and $arr[$i]["role"] == "Client"){
+
+                $client = new client($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
+                $client->introduce();
+                $counter++;                
+        }
+        
+    }
+    else if ($LOGIN == null and $PASSWORD == null){
+        echo "Привет! Добро пожаловать на сайт!";
+        break;
+    } 
     
-            $admin = new admin($arr[0]["name"], $arr[0]["surname"], $arr[0]["role"],$arr[0]["login"],$arr[0]["password"]);
-            $admin->introduce($admin->role,$admin->name,$admin->surname);
-    }
-    else if($LOGIN == $arr[1]["login"] and $PASSWORD == $arr[1]["password"]){
-            $manager = new manager($arr[1]["name"], $arr[1]["surname"], $arr[1]["role"],$arr[1]["login"],$arr[1]["password"]);
-            $manager->introduce($manager->role,$manager->name,$manager->surname);
-    }
-    else if($LOGIN == $arr[2]["login"] and $PASSWORD == $arr[2]["password"]){
-            $client = new client($arr[2]["name"], $arr[2]["surname"], $arr[2]["role"],$arr[2]["login"],$arr[2]["password"]);
-            $client->introduce($client->role,$client->name,$client->surname);
-    }
-    else if($LOGIN == null and $PASSWORD == null){
-        echo "Привет! Можешь логиниться!";
-    }
-    else{
-        echo "Введены неверные данные!";
-    }
+}
+if($counter == 0){
+   echo "Вы ввели неверные данные!";
+}
+
 
 ?>
 <form method="post">
     <p><input type="text" name="login" > Логин</p>
     <p><input type="text" name="password" > Пароль</p>
-    <input type="submit" value="Ввести">
+    <input type="submit" name="submit" value="Ввести">
 </form>
 </body>
 </html>
