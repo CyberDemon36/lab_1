@@ -25,23 +25,32 @@ class user {
         $this->login = $login;
         $this->password = $password;
     }
-};
-class admin extends user {
-    
-    public function introduce (){
-        echo "Здравствуйте, ".$this->role. "  " . $this->name. "  " . $this->surname. "  ". ", вам разрешено все на данном сайте";
+    public function introduce() {
+        echo "Здравствуйте, " .$this->role. "  " . $this->name. "  " . $this->surname;
     }
 };
-class manager extends user {
+class Admin extends user {
+
+    public $role = null;
+
+    public function introduce (){
+        echo parent::introduce(). "  " . ", вам разрешено все на данном сайте";
+    }
+};
+class Manager extends user {
+
+    public $role = null;
 
     public function introduce() {
-        echo "Здравствуйте, ".$this->role. "  " . $this->name. "  " . $this->surname. "  ". ", вам разрешено взаимодействовать с аккаунтами клиентов";
+        echo parent::introduce(). "  " . ", вам разрешено взаимодействовать с аккаунтами клиентов";
     }
 };
-class client extends user {
+class Client extends user {
+
+    public $role = null;
 
     public function introduce (){
-        echo "Здравствуйте ,".$this->role. "  " . $this->name. "  " . $this->surname. "  ". ", добро пожаловать на сайт!";;
+        echo parent::introduce(). "  " . ", добро пожаловать на сайт!";;
     }
 };
 
@@ -73,19 +82,19 @@ if(!empty($LOGIN)){
     
             switch($arr[$i]["role"]) {
                 case "Admin":
-                     $admin = new admin($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
+                     $admin = new Admin($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
                      $admin->introduce();
                      $counter++;
                 break;
              
                 case "Manager":
-                     $manager = new manager($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
+                     $manager = new Manager($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
                      $manager->introduce();
                      $counter++;
                 break;
     
                 case "Client":
-                     $client = new client($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
+                     $client = new Client($arr[$i]["name"], $arr[$i]["surname"], $arr[$i]["role"],$arr[$i]["login"],$arr[$i]["password"]);
                      $client->introduce();
                      $counter++;    
                 break;
